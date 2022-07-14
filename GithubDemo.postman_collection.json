@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "62adbf54-1394-40e7-aed7-eeb6a6ab9fcf",
+		"name": "GithubDemo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "GithubGetIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var body = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Check status code\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(200); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check status\", function() {\r",
+									"    pm.expect(pm.response.status).to.equal('OK'); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check status code E56\", function() {\r",
+									"    pm.expect(pm.response.code).to.equal(200); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check status code lab\", function() {\r",
+									"    pm.response.to.have.status(200); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check issue URL\", function() {\r",
+									"    pm.expect(body.url, \"URL property\").to.equal(\"https://api.github.com/repos/tERROR6239/postman/issues/1\"); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check issue number\", function() {\r",
+									"    pm.expect(body.number, \"Number property\").to.equal(1); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check issue id\", function() {\r",
+									"    pm.expect(body.id, \"id property\").to.equal(1234843084); \r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/{{user}}/{{repo}}/issues/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"{{user}}",
+								"{{repo}}",
+								"issues",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllIssues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var body = pm.response.json();\r",
+									"console.log(body[1]);\r",
+									"\r",
+									"pm.test(\"Check body length\", function() {\r",
+									"    //var body = pm.response.json();\r",
+									"    pm.expect(body[0].title).to.include('Postman'); \r",
+									"}); \r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/{{user}}/{{repo}}/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"{{user}}",
+								"{{repo}}",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "FirstIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var body = pm.response.json();\r",
+									"let number = body.number;\r",
+									"console.log(\"BODY :\", body);\r",
+									"\r",
+									"pm.test(\"Check status code\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(201); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check status\", function() {\r",
+									"    pm.expect(pm.response.status).to.equal('Created'); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check status code E56\", function() {\r",
+									"    pm.expect(pm.response.code).to.equal(201); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check status code lab\", function() {\r",
+									"    pm.response.to.have.status(201); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check issue URL\", function() {\r",
+									"    let url = \"https://api.github.com/repos/tERROR6239/postman/issues/\" + number;\r",
+									"    pm.expect(body.url, \"URL property\").to.equal(url); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check issue number\", function() {\r",
+									"    pm.expect(body.number, \"Number property\").to.be.greaterThan(1); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check issue id\", function() {\r",
+									"    pm.expect(body.id, \"id property\").to.be.greaterThan(1); \r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"FirstIaaueFromPostman\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/{{user}}/{{repo}}/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"{{user}}",
+								"{{repo}}",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FirstIssueWithLabels",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"title\":\"SecondIaaueFromPostmanWithLabels\",\r\n   \"labels\":[\r\n      \"bug\",\r\n      \"UI\",\r\n      \"user\"\r\n   ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/{{user}}/{{repo}}/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"{{user}}",
+								"{{repo}}",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "DeleteFirstIssue",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/{{user}}/{{repo}}/issues/3\n",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"{{user}}",
+								"{{repo}}",
+								"issues",
+								"3\n"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
