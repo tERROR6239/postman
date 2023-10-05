@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "GET",
+			"name": "POST",
 			"item": [
 				{
 					"name": "GithubGetIssue",
